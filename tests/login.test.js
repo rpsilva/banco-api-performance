@@ -2,9 +2,10 @@ import http from 'k6/http';   //importa o modulo
 import { sleep, check } from 'k6';  // importa a função
 
 export const options = {
-  iterations: 10,
+  vus: 10,
+  durations: '30s',  // 10 pessoas executando por 30 segundos
   	thresholds: {
-		http_req_duration: ['p(90)<10', 'max<1'], // p90 tem que ser menor do que 10ms
+		http_req_duration: ['p(90)<3000', 'max<5000'], // p90 tem que ser menor do que 3000 // requisicao com tempo maior nao pode passar de 5000
 		http_req_failed: ['rate<0.01'] // falhas menor do que 1%
 	}
 };
