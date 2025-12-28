@@ -1,5 +1,8 @@
 import http from 'k6/http';   //importa o modulo
 import { sleep, check } from 'k6';  // importa a função
+const postLogin = JSON.parse(open('../fixtures/postLogin.json'))
+
+
 
 export const options = {
   stages:[
@@ -9,7 +12,7 @@ export const options = {
 	{ duration: '20s', target: 30 }, //soe pra 30
 	{ duration: '20s', target: 0 } //soe pra 30
 
-  ]
+  ],
   	thresholds: {
 		http_req_duration: ['p(90)<3000', 'max<5000'], // p90 tem que ser menor do que 3000 // requisicao com tempo maior nao pode passar de 5000
 		http_req_failed: ['rate<0.01'] // falhas menor do que 1%
@@ -19,10 +22,7 @@ export const options = {
 export default function () {
 	const url = 'https://localhost:3000/login';
 	
-    const payload = JSON.stringify({
-	    username:'julio.lima',
-	    senha: '123456'           // isso é um objeto javascript. P/converter em uma string json utiliza o JSON.stringify
-    });
+    const payload = JSON.stringify(postLogin);
 
  const params = {
 	headers: {
